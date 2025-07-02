@@ -19,11 +19,12 @@ export function useAddAppointment() {
       fullscreen: deviceDetection(),
       fullscreenIcon: true,
       closeOnClickModal: false,
+      hideFooter: true,
       contentRenderer: () =>
-        h(AddAppointment, { ref: AddAppointmentRef, formInline: null }),
-      beforeSure: (done, { options }) => {
-        done(); // 关闭弹框
-      }
+        h(AddAppointment, { ref: AddAppointmentRef, formInline: null })
+      // beforeSure: (done, { options }) => {
+      //   done(); // 关闭弹框
+      // }
     });
   }
 
