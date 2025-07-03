@@ -3,10 +3,15 @@ import { addDialog } from "@/components/ReDialog";
 import { deviceDetection } from "@pureadmin/utils";
 import { ref, h } from "vue";
 import AddAppointment from "./AddAppointment.vue";
+import AppointmentDetail from "./AppointmentDetail.vue";
+import ProcessDetail from "./ProcessDetail.vue";
+import ProcessForm from "./ProcessForm.vue";
 
 export function useAddAppointment() {
   const AddAppointmentRef = ref();
-
+  const AppointmentDetailRef = ref();
+  const ProcessDetailRef = ref();
+  const ProcessFormRef = ref();
   function openDialog(row?: any) {
     console.log("openDialogOne==>", row);
     addDialog({
@@ -27,9 +32,65 @@ export function useAddAppointment() {
       // }
     });
   }
-
+  function openDialogDetail(row?: any) {
+    console.log("openDialogOne==>", row);
+    addDialog({
+      title: ``,
+      props: {
+        formInline: {}
+      },
+      width: "30%",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      hideFooter: true,
+      contentRenderer: () =>
+        h(AppointmentDetail, { ref: AppointmentDetailRef, formInline: null })
+      // beforeSure: (done, { options }) => {
+      //   done(); // 关闭弹框
+      // }
+    });
+  }
+  function openDialogProcessDetail(row?: any) {
+    console.log("openDialogOne==>", row);
+    addDialog({
+      title: ``,
+      props: {
+        formInline: {}
+      },
+      width: "20%",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      hideFooter: true,
+      contentRenderer: () =>
+        h(ProcessDetail, { ref: ProcessDetailRef, formInline: null })
+    });
+  }
+  function openDialogProcessForm(row?: any) {
+    console.log("openDialogOne==>", row);
+    addDialog({
+      title: ``,
+      props: {
+        formInline: {}
+      },
+      width: "20%",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      hideFooter: true,
+      contentRenderer: () =>
+        h(ProcessForm, { ref: ProcessFormRef, formInline: null })
+    });
+  }
   return {
     openDialog,
+    openDialogDetail,
+    openDialogProcessDetail,
+    openDialogProcessForm,
     transformI18n
   };
 }

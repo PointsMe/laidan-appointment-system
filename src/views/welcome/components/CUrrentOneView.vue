@@ -6,9 +6,14 @@ import {
   PhoneFilled,
   View
 } from "@element-plus/icons-vue";
+import { useAddAppointment } from "./hooks";
+import { ref } from "vue";
 defineOptions({
   name: "CurrentOneView"
 });
+const { openDialogDetail, openDialogProcessDetail, openDialogProcessForm } =
+  useAddAppointment();
+const row = ref({});
 </script>
 <template>
   <div class="content-item">
@@ -80,7 +85,11 @@ defineOptions({
             </div>
             <el-divider direction="vertical" />
             <div class="flex-1">
-              <el-button class="w-full bg-color-btn" type="primary" :icon="View"
+              <el-button
+                class="w-full bg-color-btn"
+                type="primary"
+                :icon="View"
+                @click="openDialogProcessForm()"
                 >详情</el-button
               >
             </div>

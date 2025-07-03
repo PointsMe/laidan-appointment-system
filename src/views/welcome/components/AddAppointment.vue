@@ -5,7 +5,7 @@ import { Calendar, Avatar } from "@element-plus/icons-vue";
 defineOptions({
   name: "AddAppointment"
 });
-
+const step = ref(1);
 const date = ref("");
 const value = ref(1);
 const value2 = ref(1);
@@ -19,7 +19,7 @@ const form = ref({
 </script>
 <template>
   <div class="add-appointment">
-    <div style="display: none" class="add-appointment-step-1 flex items-center">
+    <div v-if="step === 1" class="add-appointment-step-1 flex">
       <div class="add-appointment-step-1-left flex-1">
         <div class="flex items-center mb-4">
           <span class="text-lg text-blue-600 mr-2">1.</span
@@ -60,9 +60,17 @@ const form = ref({
             >19:00</span
           >
         </div>
+        <div class="flex justify-end mt-30">
+          <img
+            src="@/assets/images/icon-13.png"
+            alt=""
+            class="w-15 h-15"
+            @click="step = 2"
+          />
+        </div>
       </div>
     </div>
-    <div class="add-appointment-step-2">
+    <div v-if="step === 2" class="add-appointment-step-2">
       <div class="step-2-top flex items-center justify-center">
         <el-icon class="icon-span"><Calendar /></el-icon>
         <span class="text-2xl ml-2 border-b-span">周四 2025-07-01</span>
@@ -96,6 +104,11 @@ const form = ref({
             </div>
           </el-form-item>
         </el-form>
+      </div>
+    </div>
+    <div v-if="step === 3" class="add-appointment-step-3">
+      <div class="step-3-top">
+        <span>预约成功</span>
       </div>
     </div>
   </div>
