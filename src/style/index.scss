@@ -35,3 +35,23 @@
 .html-weakness {
   filter: invert(80%);
 }
+.reservation-form-container-dialog {
+  background-color: #f5f5f5 !important;
+  .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #000 !important;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #000 !important;
+    border-color: #000 !important;
+  }
+}
+.setting-form-content-item-content {
+  .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #000 !important;
+  }
+
+  .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #000 !important;
+    border-color: #000 !important;
+  }
+}

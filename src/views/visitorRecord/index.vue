@@ -44,6 +44,7 @@ const iconClass = computed(() => {
 const formRef = ref();
 const tableRef = ref();
 const contentRef = ref();
+const tableHeight = ref(0);
 
 const {
   form,
@@ -58,12 +59,12 @@ const {
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
-} = useRole();
+} = useRole(tableRef);
 onMounted(() => {
   useResizeObserver(contentRef, async () => {
     await nextTick();
     delay(60).then(() => {
-      treeHeight.value = parseFloat(
+      tableHeight.value = parseFloat(
         subBefore(tableRef.value.getTableDoms().tableWrapper.style.height, "px")
       );
     });
@@ -73,7 +74,7 @@ onMounted(() => {
 
 <template>
   <div class="main">
-    <el-form
+    <!-- <el-form
       ref="formRef"
       :inline="true"
       :model="form"
@@ -100,7 +101,7 @@ onMounted(() => {
           重置
         </el-button>
       </el-form-item>
-    </el-form>
+    </el-form> -->
 
     <div
       ref="contentRef"

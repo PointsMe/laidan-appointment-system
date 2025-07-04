@@ -1,22 +1,13 @@
-import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { message } from "@/utils/message";
 import { transformI18n } from "@/plugins/i18n";
-import { addDialog } from "@/components/ReDialog";
+import { addDialog, closeDialog } from "@/components/ReDialog";
 import { ElMessageBox } from "element-plus";
-// import type { FormItemProps } from "../utils/types";
-import type { PaginationProps } from "@pureadmin/table";
 import { deviceDetection } from "@pureadmin/utils";
-import {
-  getEmployeeList,
-  addEmployeeApi,
-  getEmployeeDetailApi,
-  updateEmployeeApi,
-  deleteEmployeeApi
-} from "@/api/user";
-import { type Ref, reactive, ref, onMounted, h, toRaw } from "vue";
+import { getEmployeeList, deleteEmployeeApi } from "@/api/user";
+import { reactive, ref, onMounted, h, toRaw } from "vue";
 
-export function useRole(treeRef: Ref) {
+export function useDialog() {
   const form = reactive({
     username: ""
   });
@@ -26,54 +17,6 @@ export function useRole(treeRef: Ref) {
   const formRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
-  const isLinkage = ref(false);
-  const treeSearchValue = ref();
-  const isExpandAll = ref(false);
-  const isSelectAll = ref(false);
-  const pagination = reactive<PaginationProps>({
-    total: 0,
-    pageSize: 10,
-    currentPage: 1,
-    background: true
-  });
-  const columns: TableColumnList = [
-    {
-      label: "员工姓名",
-      prop: "username"
-    },
-    {
-      label: "眼镜编号",
-      prop: "cameraDeviceNumber"
-    },
-    {
-      label: "所属门店",
-      prop: "shops",
-      cellRenderer: ({ row }) => {
-        return h("div", row?.shops?.map(item => item.name).join(",") || "~");
-      }
-    },
-    {
-      label: "手机",
-      prop: "mobile"
-    },
-    {
-      label: "邮箱",
-      prop: "email"
-    },
-    {
-      label: "创建时间",
-      prop: "createdAt",
-      minWidth: 160,
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
-    },
-    {
-      label: "操作",
-      fixed: "right",
-      width: 350,
-      slot: "operation"
-    }
-  ];
 
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
@@ -99,10 +42,6 @@ export function useRole(treeRef: Ref) {
       kind: 101
     });
     dataList.value = data.list;
-    pagination.total = data.total;
-    pagination.pageSize = data.pageSize;
-    pagination.currentPage = data.currentPage;
-
     setTimeout(() => {
       loading.value = false;
     }, 500);
@@ -113,91 +52,43 @@ export function useRole(treeRef: Ref) {
     formEl.resetFields();
     onSearch();
   };
-  function openDialog(title = "新增", row?: any) {
+  function openDialog(row?: any) {
     console.log("openDialog==>", row);
-    function addLast(data) {
-      addDialog({
-        title: `${title}员工`,
-        props: {
-          formInline: {
-            username: data ? data?.username : "",
-            email: data ? data?.email : "",
-            shopIds: data ? data?.shops?.map(item => item.id)[0] : "",
-            mobile: data ? data?.mobile : "",
-            id: data ? data?.id : ""
+    addDialog({
+      title: ``,
+      props: {
+        formInline: {
+          id: row ? row?.id : ""
+        }
+      },
+      class: "reservation-form-container-dialog", // 自定义弹窗类名
+      width: "25%",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      footerButtons: [
+        {
+          label: "关闭",
+          size: "default",
+          type: "info",
+          btnClick: ({ dialog: { options, index }, button }) => {
+            console.log(options, index, button);
+            closeDialog(options, index);
           }
         },
-        width: "25%",
-        draggable: true,
-        fullscreen: deviceDetection(),
-        fullscreenIcon: true,
-        closeOnClickModal: false,
-        contentRenderer: () => h(editForm, { ref: formRef, formInline: null }),
-        beforeSure: (done, { options }) => {
-          const FormRef = formRef.value.getRef();
-          const curData = options.props.formInline;
-          function chores() {
-            message(`您${title}了员工名称为${curData.username}的这条数据`, {
-              type: "success"
-            });
-            done(); // 关闭弹框
-            onSearch(); // 刷新表格数据
+        {
+          label: "保存",
+          size: "default",
+          type: "primary",
+          btnClick: ({ dialog: { options, index }, button }) => {
+            console.log(options, index, button);
+            closeDialog(options, index);
           }
-          FormRef.validate(valid => {
-            if (valid) {
-              console.log("curData", curData);
-              // 表单规则校验通过
-              if (title === "新增") {
-                // 实际开发先调用新增接口，再进行下面操作
-                addEmployeeApi({
-                  scope: 102,
-                  username: curData.username,
-                  email: curData.email,
-                  enabled: true,
-                  password: curData.password,
-                  shopIds: [curData.shopIds],
-                  mobile: `${FormRef.mobile_type.replace("+", "")}-${curData.mobile}`,
-                  kind: 101
-                }).then(res_1 => {
-                  if (res_1) {
-                    chores();
-                  }
-                });
-              } else {
-                // 实际开发先调用修改接口，再进行下面操作
-                updateEmployeeApi({
-                  id: data?.id,
-                  scope: 102,
-                  username: curData.username,
-                  email: curData.email,
-                  enabled: true,
-                  mobile: `${FormRef.mobile_type.replace("+", "")}-${curData.mobile}`,
-                  password: curData.password,
-                  shopIds: [curData.shopIds],
-                  kind: 101
-                }).then(res_2 => {
-                  if (res_2) {
-                    chores();
-                  }
-                });
-              }
-            }
-          });
         }
-      });
-    }
-    if (row) {
-      const params = new FormData();
-      params.append("id", row?.id);
-      getEmployeeDetailApi(params).then(res => {
-        if (res && res.data) {
-          const { data } = res;
-          addLast(data);
-        }
-      });
-    } else {
-      addLast(null);
-    }
+      ],
+      contentRenderer: () => h(editForm, { ref: formRef, formInline: null })
+    });
   }
 
   const deleteEmployee = (row: any) => {
@@ -234,28 +125,6 @@ export function useRole(treeRef: Ref) {
       background: id === curRow.value?.id ? "var(--el-fill-color-light)" : ""
     };
   }
-
-  /** 菜单权限-保存 */
-  function handleSave() {
-    const { id, name } = curRow.value;
-    // 根据用户 id 调用实际项目中菜单权限修改接口
-    console.log(id, treeRef.value.getCheckedKeys());
-    message(`角色名称为${name}的菜单权限修改成功`, {
-      type: "success"
-    });
-  }
-
-  /** 数据权限 可自行开发 */
-  // function handleDatabase() {}
-
-  const onQueryChanged = (query: string) => {
-    treeRef.value!.filter(query);
-  };
-
-  const filterMethod = (query: string, node) => {
-    return transformI18n(node.title)!.includes(query);
-  };
-
   onMounted(async () => {
     onSearch();
   });
@@ -264,24 +133,13 @@ export function useRole(treeRef: Ref) {
     form,
     curRow,
     loading,
-    columns,
     rowStyle,
     dataList,
-    isLinkage,
-    pagination,
-    isExpandAll,
-    isSelectAll,
-    treeSearchValue,
-    // buttonClass,
     onSearch,
     resetForm,
     openDialog,
     deleteEmployee,
-    handleSave,
-    filterMethod,
     transformI18n,
-    onQueryChanged,
-    // handleDatabase,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange

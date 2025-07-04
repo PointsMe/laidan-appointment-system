@@ -1,17 +1,17 @@
 import dayjs from "dayjs";
 import editForm from "../form.vue";
+import replayForm from "../replayForm.vue";
 import { message } from "@/utils/message";
 import { transformI18n } from "@/plugins/i18n";
 import { addDialog } from "@/components/ReDialog";
+import { addDrawer } from "@/components/ReDrawer";
 import { ElMessageBox } from "element-plus";
 // import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { deviceDetection } from "@pureadmin/utils";
 import {
   getEmployeeList,
-  addEmployeeApi,
   getEmployeeDetailApi,
-  updateEmployeeApi,
   deleteEmployeeApi
 } from "@/api/user";
 import { type Ref, reactive, ref, onMounted, h, toRaw } from "vue";
@@ -24,6 +24,7 @@ export function useRole(treeRef: Ref) {
   const currentSize = ref(10);
   const curRow = ref();
   const formRef = ref();
+  const replayFormRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
   const isLinkage = ref(false);
@@ -114,76 +115,25 @@ export function useRole(treeRef: Ref) {
     formEl.resetFields();
     onSearch();
   };
-  function openDialog(title = "新增", row?: any) {
-    console.log("openDialog==>", row);
+  function openDialog(row?: any) {
+    console.log("openDialog==>111", row);
     function addLast(data) {
       addDialog({
-        title: `${title}员工`,
+        title: ``,
         props: {
           formInline: {
-            username: data ? data?.username : "",
-            email: data ? data?.email : "",
-            shopIds: data ? data?.shops?.map(item => item.id)[0] : "",
-            mobile: data ? data?.mobile : "",
             id: data ? data?.id : ""
           }
         },
-        width: "25%",
+        width: "50%",
         draggable: true,
         fullscreen: deviceDetection(),
         fullscreenIcon: true,
         closeOnClickModal: false,
         contentRenderer: () => h(editForm, { ref: formRef, formInline: null }),
         beforeSure: (done, { options }) => {
-          const FormRef = formRef.value.getRef();
-          const curData = options.props.formInline;
-          function chores() {
-            message(`您${title}了员工名称为${curData.username}的这条数据`, {
-              type: "success"
-            });
-            done(); // 关闭弹框
-            onSearch(); // 刷新表格数据
-          }
-          FormRef.validate(valid => {
-            if (valid) {
-              console.log("curData", curData);
-              // 表单规则校验通过
-              if (title === "新增") {
-                // 实际开发先调用新增接口，再进行下面操作
-                addEmployeeApi({
-                  scope: 102,
-                  username: curData.username,
-                  email: curData.email,
-                  enabled: true,
-                  password: curData.password,
-                  shopIds: [curData.shopIds],
-                  mobile: `${FormRef.mobile_type.replace("+", "")}-${curData.mobile}`,
-                  kind: 101
-                }).then(res_1 => {
-                  if (res_1) {
-                    chores();
-                  }
-                });
-              } else {
-                // 实际开发先调用修改接口，再进行下面操作
-                updateEmployeeApi({
-                  id: data?.id,
-                  scope: 102,
-                  username: curData.username,
-                  email: curData.email,
-                  enabled: true,
-                  mobile: `${FormRef.mobile_type.replace("+", "")}-${curData.mobile}`,
-                  password: curData.password,
-                  shopIds: [curData.shopIds],
-                  kind: 101
-                }).then(res_2 => {
-                  if (res_2) {
-                    chores();
-                  }
-                });
-              }
-            }
-          });
+          console.log("beforeSure", options);
+          done();
         }
       });
     }
@@ -200,7 +150,30 @@ export function useRole(treeRef: Ref) {
       addLast(null);
     }
   }
-
+  function openReplyDialog(row?: any) {
+    console.log("openReplyDialog==>111", row);
+    addDialog({
+      title: ``,
+      props: {},
+      width: "30%",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      contentRenderer: () => h(replayForm, { ref: replayFormRef }),
+      beforeSure: (done, { options }) => {
+        console.log("beforeSure", options);
+        done();
+      }
+    });
+  }
+  function onCloseOnClickModalClick() {
+    addDrawer({
+      title: "禁止通过点击modal关闭",
+      closeOnClickModal: false,
+      contentRenderer: () => <p>抽屉内容-禁止通过点击modal关闭</p>
+    });
+  }
   const deleteEmployee = (row: any) => {
     console.log(row);
     ElMessageBox.confirm(
@@ -277,6 +250,8 @@ export function useRole(treeRef: Ref) {
     onSearch,
     resetForm,
     openDialog,
+    openReplyDialog,
+    onCloseOnClickModalClick,
     deleteEmployee,
     handleSave,
     filterMethod,

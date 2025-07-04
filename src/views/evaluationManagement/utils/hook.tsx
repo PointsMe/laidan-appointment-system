@@ -1,22 +1,19 @@
-import dayjs from "dayjs";
 import editForm from "../form.vue";
+import replayForm from "../replayForm.vue";
+import settingForm from "../settingForm.vue";
 import { message } from "@/utils/message";
 import { transformI18n } from "@/plugins/i18n";
 import { addDialog } from "@/components/ReDialog";
+import { addDrawer } from "@/components/ReDrawer";
 import { ElMessageBox } from "element-plus";
 // import type { FormItemProps } from "../utils/types";
 import type { PaginationProps } from "@pureadmin/table";
 import { deviceDetection } from "@pureadmin/utils";
-import {
-  getEmployeeList,
-  addEmployeeApi,
-  getEmployeeDetailApi,
-  updateEmployeeApi,
-  deleteEmployeeApi
-} from "@/api/user";
-import { type Ref, reactive, ref, onMounted, h, toRaw } from "vue";
+import Low from "@/assets/images/low.png";
+import { deleteEmployeeApi } from "@/api/user";
+import { type Ref, reactive, ref, onMounted, h } from "vue";
 
-export function useRole(treeRef: Ref) {
+export function useEvaluationManagement(treeRef: Ref) {
   const form = reactive({
     username: ""
   });
@@ -24,6 +21,8 @@ export function useRole(treeRef: Ref) {
   const currentSize = ref(10);
   const curRow = ref();
   const formRef = ref();
+  const replayFormRef = ref();
+  const settingFormRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
   const isLinkage = ref(false);
@@ -38,34 +37,29 @@ export function useRole(treeRef: Ref) {
   });
   const columns: TableColumnList = [
     {
-      label: "员工姓名",
-      prop: "username"
+      label: "信息/详情",
+      prop: "username",
+      width: 200,
+      cellRenderer: ({ row }) => (
+        <div class="flex items-center flex-col">
+          <span>{`30分钟前`}</span>
+          <span class="text-lg text-black-300">{row.username}</span>
+          <div class="flex items-center">
+            <span>{`1评价`}</span>
+            <span class="mx-2">|</span>
+            <span>{`1光顾`}</span>
+          </div>
+        </div>
+      )
     },
     {
-      label: "眼镜编号",
-      prop: "cameraDeviceNumber"
-    },
-    {
-      label: "所属门店",
-      prop: "shops",
-      cellRenderer: ({ row }) => {
-        return h("div", row?.shops?.map(item => item.name).join(",") || "~");
-      }
-    },
-    {
-      label: "手机",
-      prop: "mobile"
-    },
-    {
-      label: "邮箱",
-      prop: "email"
-    },
-    {
-      label: "创建时间",
-      prop: "createdAt",
-      minWidth: 160,
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+      label: "整体评价",
+      prop: "email",
+      cellRenderer: () => (
+        <div class="flex items-center flex-col">
+          <img src={Low} alt="" class="w-10 h-10" />
+        </div>
+      )
     },
     {
       label: "操作",
@@ -91,13 +85,32 @@ export function useRole(treeRef: Ref) {
     console.log("handleSelectionChange", val);
   }
   async function onSearch() {
-    loading.value = true;
-    const { data } = await getEmployeeList({
-      ...toRaw(form),
-      page: currentPage.value,
-      size: currentSize.value,
-      kind: 101
-    });
+    // loading.value = true;
+    // const { data } = await getEmployeeList({
+    //   ...toRaw(form),
+    //   page: currentPage.value,
+    //   size: currentSize.value,
+    //   kind: 101
+    // });
+    const data = {
+      list: [
+        {
+          username: "张三",
+          mobile: "13800138000",
+          email: "123",
+          id: 1
+        },
+        {
+          username: "李四",
+          mobile: "13800138001",
+          email: "456",
+          id: 2
+        }
+      ],
+      total: 2,
+      pageSize: 10,
+      currentPage: 1
+    };
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -113,93 +126,86 @@ export function useRole(treeRef: Ref) {
     formEl.resetFields();
     onSearch();
   };
-  function openDialog(title = "新增", row?: any) {
-    console.log("openDialog==>", row);
+  function openDialog(row?: any) {
+    console.log("openDialog==>111", row);
     function addLast(data) {
       addDialog({
-        title: `${title}员工`,
+        title: ``,
         props: {
           formInline: {
-            username: data ? data?.username : "",
-            email: data ? data?.email : "",
-            shopIds: data ? data?.shops?.map(item => item.id)[0] : "",
-            mobile: data ? data?.mobile : "",
             id: data ? data?.id : ""
           }
         },
-        width: "25%",
+        width: "50%",
         draggable: true,
         fullscreen: deviceDetection(),
         fullscreenIcon: true,
         closeOnClickModal: false,
         contentRenderer: () => h(editForm, { ref: formRef, formInline: null }),
         beforeSure: (done, { options }) => {
-          const FormRef = formRef.value.getRef();
-          const curData = options.props.formInline;
-          function chores() {
-            message(`您${title}了员工名称为${curData.username}的这条数据`, {
-              type: "success"
-            });
-            done(); // 关闭弹框
-            onSearch(); // 刷新表格数据
-          }
-          FormRef.validate(valid => {
-            if (valid) {
-              console.log("curData", curData);
-              // 表单规则校验通过
-              if (title === "新增") {
-                // 实际开发先调用新增接口，再进行下面操作
-                addEmployeeApi({
-                  scope: 102,
-                  username: curData.username,
-                  email: curData.email,
-                  enabled: true,
-                  password: curData.password,
-                  shopIds: [curData.shopIds],
-                  mobile: `${FormRef.mobile_type.replace("+", "")}-${curData.mobile}`,
-                  kind: 101
-                }).then(res_1 => {
-                  if (res_1) {
-                    chores();
-                  }
-                });
-              } else {
-                // 实际开发先调用修改接口，再进行下面操作
-                updateEmployeeApi({
-                  id: data?.id,
-                  scope: 102,
-                  username: curData.username,
-                  email: curData.email,
-                  enabled: true,
-                  mobile: `${FormRef.mobile_type.replace("+", "")}-${curData.mobile}`,
-                  password: curData.password,
-                  shopIds: [curData.shopIds],
-                  kind: 101
-                }).then(res_2 => {
-                  if (res_2) {
-                    chores();
-                  }
-                });
-              }
-            }
-          });
+          console.log("beforeSure", options);
+          done();
         }
       });
     }
     if (row) {
-      const params = new FormData();
-      params.append("id", row?.id);
-      getEmployeeDetailApi(params).then(res => {
-        if (res && res.data) {
-          const { data } = res;
-          addLast(data);
-        }
-      });
+      addLast(row);
+      // const params = new FormData();
+      // params.append("id", row?.id);
+      // getEmployeeDetailApi(params).then(res => {
+      //   if (res && res.data) {
+      //     const { data } = res;
+      //     addLast(data);
+      //   }
+      // });
     } else {
       addLast(null);
     }
   }
-
+  function openReplyDialog(row?: any) {
+    console.log("openReplyDialog==>111", row);
+    addDialog({
+      title: ``,
+      props: {},
+      width: "30%",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      contentRenderer: () => h(replayForm, { ref: replayFormRef }),
+      beforeSure: (done, { options }) => {
+        console.log("beforeSure", options);
+        done();
+      }
+    });
+  }
+  function openSettingForm() {
+    addDialog({
+      title: ``,
+      props: {},
+      width: "30%",
+      draggable: true,
+      fullscreen: deviceDetection(),
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      contentRenderer: () => h(settingForm, { ref: settingFormRef }),
+      beforeSure: (done, { options }) => {
+        console.log("beforeSure", options);
+        done();
+      }
+    });
+  }
+  function onCloseOnClickModalClick() {
+    addDrawer({
+      title: "禁止通过点击modal关闭",
+      closeOnClickModal: false,
+      contentRenderer: () => (
+        <div class="w-full h-full bg-red-500">
+          <span>抽屉内容-禁止通过点击modal关闭</span>
+        </div>
+      )
+    });
+  }
   const deleteEmployee = (row: any) => {
     console.log(row);
     ElMessageBox.confirm(
@@ -276,6 +282,9 @@ export function useRole(treeRef: Ref) {
     onSearch,
     resetForm,
     openDialog,
+    openReplyDialog,
+    openSettingForm,
+    onCloseOnClickModalClick,
     deleteEmployee,
     handleSave,
     filterMethod,

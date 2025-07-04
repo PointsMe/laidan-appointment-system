@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRole } from "./utils/hook";
+import { useEvaluationManagement } from "./utils/hook";
 import { ref, computed, nextTick, onMounted } from "vue";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -44,6 +44,7 @@ const iconClass = computed(() => {
 const formRef = ref();
 const tableRef = ref();
 const contentRef = ref();
+const tableHeight = ref(0);
 
 const {
   form,
@@ -55,15 +56,17 @@ const {
   onSearch,
   resetForm,
   openDialog,
+  openSettingForm,
+  onCloseOnClickModalClick,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
-} = useRole();
+} = useEvaluationManagement(tableRef);
 onMounted(() => {
   useResizeObserver(contentRef, async () => {
     await nextTick();
     delay(60).then(() => {
-      treeHeight.value = parseFloat(
+      tableHeight.value = parseFloat(
         subBefore(tableRef.value.getTableDoms().tableWrapper.style.height, "px")
       );
     });
@@ -73,7 +76,7 @@ onMounted(() => {
 
 <template>
   <div class="main">
-    <el-form
+    <!-- <el-form
       ref="formRef"
       :inline="true"
       :model="form"
@@ -100,7 +103,7 @@ onMounted(() => {
           重置
         </el-button>
       </el-form-item>
-    </el-form>
+    </el-form> -->
 
     <div
       ref="contentRef"
@@ -117,9 +120,9 @@ onMounted(() => {
           <el-button
             type="primary"
             :icon="useRenderIcon(AddFill)"
-            @click="openDialog()"
+            @click="openSettingForm()"
           >
-            新增员工
+            设置评价
           </el-button>
         </template>
         <template v-slot="{ size, dynamicColumns }">
@@ -150,18 +153,9 @@ onMounted(() => {
                 link
                 type="primary"
                 size="default"
-                @click="openDialog('修改', row)"
+                @click="openDialog(row)"
               >
-                修改
-              </el-button>
-              <el-button
-                class="reset-margin"
-                link
-                type="primary"
-                :size="size"
-                @click="deleteEmployee(row)"
-              >
-                删除
+                详情
               </el-button>
             </template>
           </pure-table>
