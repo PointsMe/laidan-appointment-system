@@ -38,34 +38,12 @@ export function useRole(treeRef: Ref) {
   });
   const columns: TableColumnList = [
     {
-      label: "员工姓名",
-      prop: "username"
+      label: "特殊日期标题",
+      prop: "title"
     },
     {
-      label: "眼镜编号",
-      prop: "cameraDeviceNumber"
-    },
-    {
-      label: "所属门店",
-      prop: "shops",
-      cellRenderer: ({ row }) => {
-        return h("div", row?.shops?.map(item => item.name).join(",") || "~");
-      }
-    },
-    {
-      label: "手机",
-      prop: "mobile"
-    },
-    {
-      label: "邮箱",
-      prop: "email"
-    },
-    {
-      label: "创建时间",
-      prop: "createdAt",
-      minWidth: 160,
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+      label: "特殊日期",
+      prop: "specialDate"
     },
     {
       label: "操作",
@@ -92,12 +70,24 @@ export function useRole(treeRef: Ref) {
   }
   async function onSearch() {
     loading.value = true;
-    const { data } = await getEmployeeList({
-      ...toRaw(form),
-      page: currentPage.value,
-      size: currentSize.value,
-      kind: 101
-    });
+    // const { data } = await getEmployeeList({
+    //   ...toRaw(form),
+    //   page: currentPage.value,
+    //   size: currentSize.value,
+    //   kind: 101
+    // });
+    const data = {
+      list: [
+        {
+          id: 1,
+          title: "特殊日期标题",
+          specialDate: "特殊日期"
+        }
+      ],
+      total: 0,
+      pageSize: 10,
+      currentPage: 1
+    };
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -117,13 +107,11 @@ export function useRole(treeRef: Ref) {
     console.log("openDialog==>", row);
     function addLast(data) {
       addDialog({
-        title: `${title}员工`,
+        title: `${title}特殊日期`,
         props: {
           formInline: {
-            username: data ? data?.username : "",
-            email: data ? data?.email : "",
-            shopIds: data ? data?.shops?.map(item => item.id)[0] : "",
-            mobile: data ? data?.mobile : "",
+            title: data ? data?.title : "",
+            specialDate: data ? data?.specialDate : "",
             id: data ? data?.id : ""
           }
         },
@@ -137,7 +125,7 @@ export function useRole(treeRef: Ref) {
           const FormRef = formRef.value.getRef();
           const curData = options.props.formInline;
           function chores() {
-            message(`您${title}了员工名称为${curData.username}的这条数据`, {
+            message(`您${title}了特殊日期标题为${curData.title}的这条数据`, {
               type: "success"
             });
             done(); // 关闭弹框

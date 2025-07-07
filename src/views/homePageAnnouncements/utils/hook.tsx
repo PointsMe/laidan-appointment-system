@@ -38,30 +38,11 @@ export function useRole(treeRef: Ref) {
   });
   const columns: TableColumnList = [
     {
-      label: "员工姓名",
-      prop: "username"
+      label: "公告标题",
+      prop: "title"
     },
     {
-      label: "眼镜编号",
-      prop: "cameraDeviceNumber"
-    },
-    {
-      label: "所属门店",
-      prop: "shops",
-      cellRenderer: ({ row }) => {
-        return h("div", row?.shops?.map(item => item.name).join(",") || "~");
-      }
-    },
-    {
-      label: "手机",
-      prop: "mobile"
-    },
-    {
-      label: "邮箱",
-      prop: "email"
-    },
-    {
-      label: "创建时间",
+      label: "公告时间",
       prop: "createdAt",
       minWidth: 160,
       formatter: ({ createTime }) =>
@@ -92,12 +73,24 @@ export function useRole(treeRef: Ref) {
   }
   async function onSearch() {
     loading.value = true;
-    const { data } = await getEmployeeList({
-      ...toRaw(form),
-      page: currentPage.value,
-      size: currentSize.value,
-      kind: 101
-    });
+    // const { data } = await getEmployeeList({
+    //   ...toRaw(form),
+    //   page: currentPage.value,
+    //   size: currentSize.value,
+    //   kind: 101
+    // });
+    const data = {
+      list: [
+        {
+          id: 1,
+          title: "公告标题",
+          createdAt: "2025-01-01 12:00:00"
+        }
+      ],
+      total: 0,
+      pageSize: 10,
+      currentPage: 1
+    };
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -117,7 +110,7 @@ export function useRole(treeRef: Ref) {
     console.log("openDialog==>", row);
     function addLast(data) {
       addDialog({
-        title: `${title}员工`,
+        title: `${title}公告`,
         props: {
           formInline: {
             username: data ? data?.username : "",
@@ -127,7 +120,7 @@ export function useRole(treeRef: Ref) {
             id: data ? data?.id : ""
           }
         },
-        width: "25%",
+        width: "40%",
         draggable: true,
         fullscreen: deviceDetection(),
         fullscreenIcon: true,
@@ -187,14 +180,15 @@ export function useRole(treeRef: Ref) {
       });
     }
     if (row) {
-      const params = new FormData();
-      params.append("id", row?.id);
-      getEmployeeDetailApi(params).then(res => {
-        if (res && res.data) {
-          const { data } = res;
-          addLast(data);
-        }
-      });
+      addLast(null);
+      // const params = new FormData();
+      // params.append("id", row?.id);
+      // getEmployeeDetailApi(params).then(res => {
+      //   if (res && res.data) {
+      //     const { data } = res;
+      //     addLast(data);
+      //   }
+      // });
     } else {
       addLast(null);
     }

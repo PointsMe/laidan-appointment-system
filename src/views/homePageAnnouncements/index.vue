@@ -73,7 +73,7 @@ onMounted(() => {
 
 <template>
   <div class="main">
-    <el-form
+    <!-- <el-form
       ref="formRef"
       :inline="true"
       :model="form"
@@ -100,8 +100,7 @@ onMounted(() => {
           重置
         </el-button>
       </el-form-item>
-    </el-form>
-
+    </el-form> -->
     <div
       ref="contentRef"
       :class="['flex', deviceDetection() ? 'flex-wrap' : '']"
@@ -119,7 +118,7 @@ onMounted(() => {
             :icon="useRenderIcon(AddFill)"
             @click="openDialog()"
           >
-            新增员工
+            新增公告
           </el-button>
         </template>
         <template v-slot="{ size, dynamicColumns }">

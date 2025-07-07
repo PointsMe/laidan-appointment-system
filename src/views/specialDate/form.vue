@@ -47,63 +47,24 @@ defineExpose({ getRef });
     ref="ruleFormRef"
     :model="newFormInline"
     :rules="formRules"
-    label-width="82px"
+    label-width="120px"
   >
     <el-row>
       <el-col :span="24">
-        <el-form-item label="门店" prop="shopIds">
-          <el-select
-            v-model="newFormInline.shopIds"
-            placeholder="请选择门店名称"
+        <el-form-item label="特殊日期标题" prop="title">
+          <el-input
+            v-model="newFormInline.title"
             clearable
-          >
-            <el-option
-              v-for="item in shopList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            />
-          </el-select>
+            placeholder="请输入特殊日期标题"
+          />
         </el-form-item>
       </el-col>
       <el-col :span="24">
-        <el-form-item label="姓名" prop="username">
-          <el-input
-            v-model="newFormInline.username"
-            clearable
-            placeholder="请输入姓名"
-          />
-        </el-form-item>
-      </el-col>
-      <el-col v-if="!newFormInline.id" :span="24">
-        <el-form-item label="手机" prop="mobile">
-          <el-input
-            v-model="newFormInline.mobile"
-            clearable
-            placeholder="请输入手机"
-          >
-            <template #prepend>
-              <AllCountryView @changeCountry="changeCountry" />
-            </template>
-          </el-input>
-        </el-form-item>
-      </el-col>
-      <el-col v-if="!newFormInline.id" :span="24">
-        <el-form-item label="邮箱" prop="email">
-          <el-input
-            v-model="newFormInline.email"
-            clearable
-            placeholder="请输入邮箱"
-          />
-        </el-form-item>
-      </el-col>
-      <el-col v-if="!newFormInline.id" :span="24">
-        <el-form-item label="密码" prop="password">
-          <el-input
-            v-model="newFormInline.password"
-            clearable
-            placeholder="请输入密码"
-            type="password"
+        <el-form-item label="特殊日期" prop="specialDate">
+          <el-date-picker
+            v-model="newFormInline.specialDate"
+            type="date"
+            placeholder="请选择特殊日期"
           />
         </el-form-item>
       </el-col>

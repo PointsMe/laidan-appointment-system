@@ -38,34 +38,28 @@ export function useRole(treeRef: Ref) {
   });
   const columns: TableColumnList = [
     {
-      label: "员工姓名",
-      prop: "username"
+      label: "活动名称",
+      prop: "title"
     },
     {
-      label: "眼镜编号",
-      prop: "cameraDeviceNumber"
+      label: "主题",
+      prop: "subject"
     },
     {
-      label: "所属门店",
-      prop: "shops",
-      cellRenderer: ({ row }) => {
-        return h("div", row?.shops?.map(item => item.name).join(",") || "~");
-      }
+      label: "寄件人",
+      prop: "sender"
     },
     {
-      label: "手机",
-      prop: "mobile"
+      label: "寄件人邮箱",
+      prop: "senderEmail"
     },
     {
-      label: "邮箱",
-      prop: "email"
+      label: "发送方式",
+      prop: "sendType"
     },
     {
-      label: "创建时间",
-      prop: "createdAt",
-      minWidth: 160,
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+      label: "提倡预约",
+      prop: "isAppointment"
     },
     {
       label: "操作",
@@ -92,12 +86,28 @@ export function useRole(treeRef: Ref) {
   }
   async function onSearch() {
     loading.value = true;
-    const { data } = await getEmployeeList({
-      ...toRaw(form),
-      page: currentPage.value,
-      size: currentSize.value,
-      kind: 101
-    });
+    // const { data } = await getEmployeeList({
+    //   ...toRaw(form),
+    //   page: currentPage.value,
+    //   size: currentSize.value,
+    //   kind: 101
+    // });
+    const data = {
+      list: [
+        {
+          id: 1,
+          title: "活动名称",
+          subject: "主题",
+          sender: "寄件人",
+          senderEmail: "寄件人邮箱",
+          sendType: "发送方式",
+          isAppointment: "提倡预约"
+        }
+      ],
+      total: 0,
+      pageSize: 10,
+      currentPage: 1
+    };
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -117,7 +127,7 @@ export function useRole(treeRef: Ref) {
     console.log("openDialog==>", row);
     function addLast(data) {
       addDialog({
-        title: `${title}员工`,
+        title: `${title}公告`,
         props: {
           formInline: {
             username: data ? data?.username : "",
@@ -127,12 +137,38 @@ export function useRole(treeRef: Ref) {
             id: data ? data?.id : ""
           }
         },
-        width: "25%",
+        width: "40%",
         draggable: true,
         fullscreen: deviceDetection(),
         fullscreenIcon: true,
         closeOnClickModal: false,
         contentRenderer: () => h(editForm, { ref: formRef, formInline: null }),
+        footerButtons: [
+          {
+            label: "关闭",
+            size: "default",
+            type: "default",
+            btnClick: ({ dialog: { options, index }, button }) => {
+              console.log(options, index, button);
+            }
+          },
+          {
+            label: "确认发送",
+            size: "default",
+            type: "success",
+            btnClick: ({ dialog: { options, index }, button }) => {
+              console.log(options, index, button);
+            }
+          },
+          {
+            label: "保存",
+            size: "default",
+            type: "primary",
+            btnClick: ({ dialog: { options, index }, button }) => {
+              console.log(options, index, button);
+            }
+          }
+        ],
         beforeSure: (done, { options }) => {
           const FormRef = formRef.value.getRef();
           const curData = options.props.formInline;
@@ -187,14 +223,15 @@ export function useRole(treeRef: Ref) {
       });
     }
     if (row) {
-      const params = new FormData();
-      params.append("id", row?.id);
-      getEmployeeDetailApi(params).then(res => {
-        if (res && res.data) {
-          const { data } = res;
-          addLast(data);
-        }
-      });
+      addLast(null);
+      // const params = new FormData();
+      // params.append("id", row?.id);
+      // getEmployeeDetailApi(params).then(res => {
+      //   if (res && res.data) {
+      //     const { data } = res;
+      //     addLast(data);
+      //   }
+      // });
     } else {
       addLast(null);
     }
