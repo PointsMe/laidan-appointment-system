@@ -44,7 +44,8 @@ const iconClass = computed(() => {
 const formRef = ref();
 const tableRef = ref();
 const contentRef = ref();
-
+const checkList = ref([]);
+const checkList2 = ref([]);
 const {
   form,
   loading,
@@ -59,119 +60,196 @@ const {
   handleCurrentChange,
   handleSelectionChange
 } = useRole();
-onMounted(() => {
-  useResizeObserver(contentRef, async () => {
-    await nextTick();
-    delay(60).then(() => {
-      treeHeight.value = parseFloat(
-        subBefore(tableRef.value.getTableDoms().tableWrapper.style.height, "px")
-      );
-    });
-  });
-});
+onMounted(() => {});
 </script>
 
 <template>
-  <div class="main">
-    <el-form
-      ref="formRef"
-      :inline="true"
-      :model="form"
-      class="search-form bg-bg_color w-full pl-8 pt-[12px] overflow-auto"
-    >
-      <el-form-item label="用户名" prop="username">
-        <el-input
-          v-model="form.username"
-          placeholder="请输入用户名"
-          clearable
-          class="w-[180px]!"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          :icon="useRenderIcon('ri/search-line')"
-          :loading="loading"
-          @click="onSearch"
-        >
-          搜索
-        </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
-          重置
-        </el-button>
-      </el-form-item>
-    </el-form>
-
+  <div class="main-container-notice h-full w-full">
     <div
       ref="contentRef"
       :class="['flex', deviceDetection() ? 'flex-wrap' : '']"
     >
-      <PureTableBar
-        :class="'w-full'"
-        style="transition: width 220ms cubic-bezier(0.4, 0, 0.2, 1)"
-        title=""
-        :columns="columns"
-        @refresh="onSearch"
-      >
-        <template #buttons>
-          <el-button
-            type="primary"
-            :icon="useRenderIcon(AddFill)"
-            @click="openDialog()"
+      <div class="w-1/2">
+        <el-form label-width="120px" label-position="top" :model="form">
+          <el-row>
+            <el-col :span="24">
+              <el-row class="border-b border-black-200 pb-4">
+                <el-col :span="12">
+                  <div class="text-sm text-black-300 mb-4 flex flex-col">
+                    <span class="text-lg text-black-300 mr-4">
+                      错过的电话
+                    </span>
+                    <span class="text-black-300 mr-4"> 基本服务信息设置 </span>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="" prop="username">
+                    <el-switch v-model="form.username" size="large" />
+                    <span class="text-sm text-black-300 ml-4">
+                      针对有预定的顾客，发送邮件询问是否取消/编辑
+                    </span>
+                  </el-form-item>
+                  <el-form-item label="" prop="username">
+                    <el-switch v-model="form.username" size="large" />
+                    <span class="text-sm text-black-300 ml-4">
+                      针对没有预定的顾客，发送邮件询问是否预定
+                    </span>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="24">
+              <el-row class="border-b border-black-200 pb-4 mt-4">
+                <el-col :span="12">
+                  <div class="text-sm text-black-300 mb-4 flex flex-col">
+                    <span class="text-lg text-black-300 mr-4"> 消息通知 </span>
+                    <span class="text-black-300 mr-4">
+                      你希望接受哪些来自Laidan的信息
+                    </span>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="邮件" prop="username">
+                    <el-input v-model="form.username" />
+                  </el-form-item>
+                  <el-form-item label="" prop="username">
+                    <el-checkbox-group
+                      v-model="checkList2"
+                      class="flex flex-col"
+                    >
+                      <el-checkbox label="新的线上预订，已确认" value="1" />
+                      <el-checkbox label="新的线上预订，待确认" value="2" />
+                      <el-checkbox
+                        label="新的线上预订，在等待列表内"
+                        value="3"
+                      />
+                      <el-checkbox label="顾客线上取消预约" value="4" />
+                      <el-checkbox label="发送摘要在每个服务前" value="5" />
+                    </el-checkbox-group>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-col>
+            <el-col :span="24">
+              <el-row class="border-b border-black-200 pb-4 mt-4">
+                <el-col :span="12">
+                  <div class="text-sm text-black-300 mb-4 flex flex-col">
+                    <span class="text-lg text-black-300 mr-4">
+                      发送信息给顾客
+                    </span>
+                    <span class="text-black-300 mr-4">
+                      选择可提供预约服务的区域
+                    </span>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="发送方式" prop="username">
+                    <el-radio-group v-model="radio" class="flex flex-col">
+                      <el-radio :value="3">Email</el-radio>
+                      <el-radio :value="6">Whatsapp</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="发送内容" prop="username">
+                    <el-checkbox-group
+                      v-model="checkList2"
+                      class="flex flex-col"
+                    >
+                      <el-checkbox value="1">
+                        <div class="flex items-center w-full">
+                          <div class="text-base text-black-300 mr-4">
+                            取消预约
+                          </div>
+                          <div class="text-sm text-black-300">
+                            （当预约取消的时候发送给顾客）
+                          </div>
+                        </div>
+                      </el-checkbox>
+                      <el-checkbox value="2">
+                        <div class="flex items-center w-full">
+                          <div class="text-base text-black-300 mr-4">
+                            预约失败
+                          </div>
+                          <div class="text-sm text-black-300">
+                            （当预约失败的时候发送给顾客）
+                          </div>
+                        </div>
+                      </el-checkbox>
+                      <el-checkbox value="3">
+                        <div class="flex items-center w-full">
+                          <div class="text-base text-black-300 mr-4">
+                            预约提醒
+                          </div>
+                          <div class="text-sm text-black-300">
+                            （每天8点发送给当天顾客，仅适用于提前 12
+                            小时以上的预订）
+                          </div>
+                        </div>
+                      </el-checkbox>
+                      <el-checkbox value="4">
+                        <div class="flex items-center w-full">
+                          <div class="text-base text-black-300 mr-4">
+                            确认预约
+                          </div>
+                          <div class="text-sm text-black-300">
+                            （每天8点发送给当天顾客，仅适用于提前 12
+                            小时以上的预订）
+                          </div>
+                        </div>
+                      </el-checkbox>
+                      <el-checkbox value="5">
+                        <div class="flex items-center w-full">
+                          <div class="text-base text-black-300 mr-4">
+                            二次确认预约
+                          </div>
+                          <div class="text-sm text-black-300">
+                            （每天10点发送给当天顾客，仅适用于第一次发送后没有确认的顾客）
+                          </div>
+                        </div>
+                      </el-checkbox>
+                      <el-checkbox value="6">
+                        <div class="flex items-center w-full">
+                          <div class="text-base text-black-300 mr-4">
+                            服务结束后发送评价问卷
+                          </div>
+                          <div class="text-sm text-black-300">
+                            （在服务结束后的几分钟内发送评价问卷）
+                          </div>
+                        </div>
+                      </el-checkbox>
+                      <el-checkbox value="7">
+                        <div class="flex items-center w-full">
+                          <div class="text-base text-black-300 mr-4">
+                            桌台已空出
+                          </div>
+                          <div class="text-sm text-black-300">
+                            （提醒客人桌台已准备好，可在十分钟内进行预定）
+                          </div>
+                        </div>
+                      </el-checkbox>
+                    </el-checkbox-group>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div class="flex justify-center mt-20">
+          <el-button type="primary" plain class="mr-4 w-[100px]"
+            >取消</el-button
           >
-            新增员工
-          </el-button>
-        </template>
-        <template v-slot="{ size, dynamicColumns }">
-          <pure-table
-            ref="tableRef"
-            align-whole="center"
-            showOverflowTooltip
-            table-layout="auto"
-            :loading="loading"
-            :size="size"
-            adaptive
-            :row-style="rowStyle"
-            :adaptiveConfig="{ offsetBottom: 108 }"
-            :data="dataList"
-            :columns="dynamicColumns"
-            :pagination="{ ...pagination, size }"
-            :header-cell-style="{
-              background: 'var(--el-fill-color-light)',
-              color: 'var(--el-text-color-primary)'
-            }"
-            @selection-change="handleSelectionChange"
-            @page-size-change="handleSizeChange"
-            @page-current-change="handleCurrentChange"
-          >
-            <template #operation="{ row }">
-              <el-button
-                class="reset-margin"
-                link
-                type="primary"
-                size="default"
-                @click="openDialog('修改', row)"
-              >
-                修改
-              </el-button>
-              <el-button
-                class="reset-margin"
-                link
-                type="primary"
-                :size="size"
-                @click="deleteEmployee(row)"
-              >
-                删除
-              </el-button>
-            </template>
-          </pure-table>
-        </template>
-      </PureTableBar>
+          <el-button type="primary" class="w-[100px]">保存</el-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.main-container-notice {
+  padding: 24px;
+  background-color: #fff;
+}
+
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
 }
