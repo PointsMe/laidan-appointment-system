@@ -79,13 +79,19 @@ onMounted(() => {
       :model="form"
       class="search-form bg-bg_color w-full pl-8 pt-[12px] overflow-auto"
     >
-      <el-form-item label="用户名" prop="username">
+      <el-form-item label="" prop="username">
         <el-input
           v-model="form.username"
           placeholder="请输入用户名"
           clearable
-          class="w-[180px]!"
+          class="w-[300px]!"
         />
+      </el-form-item>
+      <el-form-item label="" prop="cameraDeviceNumber">
+        <el-radio-group v-model="form.userType">
+          <el-radio :value="1">到店</el-radio>
+          <el-radio :value="2">黑名单</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -113,7 +119,7 @@ onMounted(() => {
         :columns="columns"
         @refresh="onSearch"
       >
-        <template #buttons>
+        <!-- <template #buttons>
           <el-button
             type="primary"
             :icon="useRenderIcon(AddFill)"
@@ -121,7 +127,7 @@ onMounted(() => {
           >
             新增员工
           </el-button>
-        </template>
+        </template> -->
         <template v-slot="{ size, dynamicColumns }">
           <pure-table
             ref="tableRef"
@@ -150,9 +156,9 @@ onMounted(() => {
                 link
                 type="primary"
                 size="default"
-                @click="openDialog('修改', row)"
+                @click="openDialog('详情', row)"
               >
-                修改
+                详情
               </el-button>
               <el-button
                 class="reset-margin"
@@ -161,7 +167,7 @@ onMounted(() => {
                 :size="size"
                 @click="deleteEmployee(row)"
               >
-                删除
+                从黑名单移除
               </el-button>
             </template>
           </pure-table>

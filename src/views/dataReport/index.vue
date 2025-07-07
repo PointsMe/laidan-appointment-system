@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRole } from "./utils/hook";
+import { useDataReport } from "./utils/hook";
 import { ref, computed, nextTick, onMounted } from "vue";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -19,6 +19,7 @@ import Close from "~icons/ep/close";
 import Check from "~icons/ep/check";
 import { ElMessageBox } from "element-plus";
 import { deleteEmployeeApi } from "@/api/user";
+import { CaretBottom } from "@element-plus/icons-vue";
 
 defineOptions({
   name: "Store"
@@ -45,133 +46,236 @@ const formRef = ref();
 const tableRef = ref();
 const contentRef = ref();
 
-const {
-  form,
-  loading,
-  columns,
-  rowStyle,
-  dataList,
-  pagination,
-  onSearch,
-  resetForm,
-  openDialog,
-  handleSizeChange,
-  handleCurrentChange,
-  handleSelectionChange
-} = useRole();
-onMounted(() => {
-  useResizeObserver(contentRef, async () => {
-    await nextTick();
-    delay(60).then(() => {
-      treeHeight.value = parseFloat(
-        subBefore(tableRef.value.getTableDoms().tableWrapper.style.height, "px")
-      );
-    });
-  });
-});
+const { form, loading } = useDataReport();
 </script>
 
 <template>
-  <div class="main">
-    <el-form
-      ref="formRef"
-      :inline="true"
-      :model="form"
-      class="search-form bg-bg_color w-full pl-8 pt-[12px] overflow-auto"
-    >
-      <el-form-item label="用户名" prop="username">
-        <el-input
-          v-model="form.username"
-          placeholder="请输入用户名"
-          clearable
-          class="w-[180px]!"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          :icon="useRenderIcon('ri/search-line')"
-          :loading="loading"
-          @click="onSearch"
-        >
-          搜索
-        </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
-          重置
-        </el-button>
-      </el-form-item>
-    </el-form>
-
-    <div
-      ref="contentRef"
-      :class="['flex', deviceDetection() ? 'flex-wrap' : '']"
-    >
-      <PureTableBar
-        :class="'w-full'"
-        style="transition: width 220ms cubic-bezier(0.4, 0, 0.2, 1)"
-        title=""
-        :columns="columns"
-        @refresh="onSearch"
-      >
-        <template #buttons>
-          <el-button
-            type="primary"
-            :icon="useRenderIcon(AddFill)"
-            @click="openDialog()"
+  <div class="main-container-data-report">
+    <div class="flex w-full justify-between">
+      <div class="bg-white-i">
+        <div class="text-2xl text-black-500">13/11/2024 - 12/12/2024</div>
+        <div>相比较（上个30天） 14/10/2024 - 12/11/2024</div>
+        <div class="text-lg text-black-500 mt-4">对照组选择:</div>
+        <div>
+          <el-radio-group v-model="form.radio">
+            <el-radio-button value="top">上个月</el-radio-button>
+            <el-radio-button value="right">上一年</el-radio-button>
+          </el-radio-group>
+        </div>
+      </div>
+      <div class="flex justify-end flex-end flex-row w-full bg-white-i">
+        <div>
+          <el-radio-group v-model="form.radio" class="mr-10">
+            <el-radio :value="3">最近30天</el-radio>
+            <el-radio :value="6">最近60天</el-radio>
+            <el-radio :value="9">最近90天</el-radio>
+          </el-radio-group>
+        </div>
+        <div>
+          <el-date-picker
+            v-model="form.date"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :size="'default'"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="mt-5">
+      <div class="text-lg text-black-500">到店访问</div>
+      <div class="text-lg text-black-500 text-[#72B9D3]">
+        数据包括所有到店访问次数，包括无预约的
+      </div>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
           >
-            新增员工
-          </el-button>
-        </template>
-        <template v-slot="{ size, dynamicColumns }">
-          <pure-table
-            ref="tableRef"
-            align-whole="center"
-            showOverflowTooltip
-            table-layout="auto"
-            :loading="loading"
-            :size="size"
-            adaptive
-            :row-style="rowStyle"
-            :adaptiveConfig="{ offsetBottom: 108 }"
-            :data="dataList"
-            :columns="dynamicColumns"
-            :pagination="{ ...pagination, size }"
-            :header-cell-style="{
-              background: 'var(--el-fill-color-light)',
-              color: 'var(--el-text-color-primary)'
-            }"
-            @selection-change="handleSelectionChange"
-            @page-size-change="handleSizeChange"
-            @page-current-change="handleCurrentChange"
+            <div>桌台</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
           >
-            <template #operation="{ row }">
-              <el-button
-                class="reset-margin"
-                link
-                type="primary"
-                size="default"
-                @click="openDialog('修改', row)"
-              >
-                修改
-              </el-button>
-              <el-button
-                class="reset-margin"
-                link
-                type="primary"
-                :size="size"
-                @click="deleteEmployee(row)"
-              >
-                删除
-              </el-button>
-            </template>
-          </pure-table>
-        </template>
-      </PureTableBar>
+            <div>人数</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="mt-5">
+      <div class="text-lg text-black-500">预约</div>
+      <div class="text-lg text-black-500 text-[#72B9D3]">
+        数据包括所有预约，包括取消或爽约的
+      </div>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>桌台</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>人数</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>人数</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>人数</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>人数</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="mt-5">
+      <div class="text-lg text-black-500">到店访问</div>
+      <div class="text-lg text-black-500 text-[#72B9D3]">
+        数据包括所有到店访问次数，包括无预约的
+      </div>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>桌台</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>人数</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="mt-5">
+      <div class="text-lg text-black-500">到店访问</div>
+      <div class="text-lg text-black-500 text-[#72B9D3]">
+        数据包括所有到店访问次数，包括无预约的
+      </div>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>桌台</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div
+            class="flex border-1 border-black-600 flex-col p-4 mt-4 bg-current"
+          >
+            <div>人数</div>
+            <div class="text-2xl text-black-500 font-bold">1.111</div>
+            <div class="flex items-center justify-start flex-row">
+              <el-icon class="text-[#FF6667] text-lg"><CaretBottom /></el-icon>
+              <span class="text-lg text-black-500 text-[#FF6667]">0.30%</span>
+              <span class="text-sm text-gray-500">(1.222)</span>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.main-container-data-report {
+  height: 100%;
+  // background-color: #fff;
+  padding: 10px;
+  .bg-white-i {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  .bg-current {
+    background-color: #fff;
+    border-radius: 5px;
+  }
+}
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
 }
