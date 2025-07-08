@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/customerManagement/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/avatar",
     title: "客户管理",
     rank: 4,
     showLink: true

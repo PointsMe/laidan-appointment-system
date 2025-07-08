@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/reservationCalendar/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/calendar",
     title: "预约日历",
     rank: 2,
     showLink: true

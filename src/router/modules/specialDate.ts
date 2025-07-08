@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/specialDate/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/calendar",
     title: "特殊日期",
     rank: 4,
     showLink: true

@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/evaluationManagement/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/message",
     title: "评价管理",
     rank: 3,
     showLink: true

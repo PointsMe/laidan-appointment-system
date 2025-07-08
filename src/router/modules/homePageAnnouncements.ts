@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/homePageAnnouncements/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/notebook",
     title: "首页公告",
     rank: 6,
     showLink: true

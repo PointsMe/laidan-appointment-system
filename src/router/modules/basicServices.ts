@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/basicServices/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/operation",
     title: "基本服务",
     rank: 4,
     showLink: true

@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/userRole/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/user",
     title: "用户角色",
     rank: 9,
     showLink: true

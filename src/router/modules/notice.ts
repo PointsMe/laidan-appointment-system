@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/notice/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/bell-filled",
     title: "通知",
     rank: 8,
     showLink: true

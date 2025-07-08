@@ -17,6 +17,17 @@ import EpSetting from "~icons/ep/setting?raw";
 import EpDocumentDelete from "~icons/ep/document-delete?raw";
 import EpMemo from "~icons/ep/memo?raw";
 import EpTickets from "~icons/ep/tickets?raw";
+import EpCalendar from "~icons/ep/calendar?raw";
+import EpMessage from "~icons/ep/message?raw";
+import EpAvatar from "~icons/ep/avatar?raw";
+import EpHistogram from "~icons/ep/histogram?raw";
+import EpUser from "~icons/ep/user?raw";
+import EpBell from "~icons/ep/bell?raw";
+import EpNotebook from "~icons/ep/notebook?raw";
+import EpScaleToOriginal from "~icons/ep/scale-to-original?raw";
+import EpOperation from "~icons/ep/operation?raw";
+import EpPlace from "~icons/ep/place?raw";
+import EpBellFilled from "~icons/ep/bell-filled?raw";
 const icons = [
   // Element Plus Icon: https://github.com/element-plus/element-plus-icons
   ["ep/home-filled", EpHomeFilled],
@@ -30,7 +41,17 @@ const icons = [
   ["ep/wallet", EpWallet],
   ["ep/document-delete", EpDocumentDelete],
   ["ep/memo", EpMemo],
-  ["ep/tickets", EpTickets]
+  ["ep/calendar", EpCalendar],
+  ["ep/message", EpMessage],
+  ["ep/avatar", EpAvatar],
+  ["ep/histogram", EpHistogram],
+  ["ep/user", EpUser],
+  ["ep/bell", EpBell],
+  ["ep/notebook", EpNotebook],
+  ["ep/scale-to-original", EpScaleToOriginal],
+  ["ep/operation", EpOperation],
+  ["ep/place", EpPlace],
+  ["ep/bell-filled", EpBellFilled]
 ];
 
 // 本地菜单图标，后端在路由的 icon 中返回对应的图标字符串并且前端在此处使用 addIcon 添加即可渲染菜单图标

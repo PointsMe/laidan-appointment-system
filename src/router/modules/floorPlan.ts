@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/floorPlan/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/place",
     title: "平面图",
     rank: 7,
     showLink: true

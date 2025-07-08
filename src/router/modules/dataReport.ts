@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/dataReport/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/histogram",
     title: "数据报告",
     rank: 5,
     showLink: true

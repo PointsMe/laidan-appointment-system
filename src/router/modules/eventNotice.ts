@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: "/eventNotice/index",
   meta: {
-    icon: "ep/user-filled",
+    icon: "ep/bell",
     title: "活动通知",
     rank: 6,
     showLink: true
