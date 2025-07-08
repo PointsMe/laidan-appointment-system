@@ -9,7 +9,7 @@ export default {
     icon: "ep/user",
     title: "用户角色",
     rank: 9,
-    showLink: true
+    showLink: false
   },
   children: [
     {

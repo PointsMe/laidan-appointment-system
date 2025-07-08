@@ -48,6 +48,11 @@ export function useRole(treeRef: Ref) {
     {
       label: "角色",
       prop: "role"
+    },
+    {
+      label: "操作",
+      prop: "operation",
+      slot: "operation"
     }
   ];
 
@@ -68,12 +73,43 @@ export function useRole(treeRef: Ref) {
   }
   async function onSearch() {
     loading.value = true;
-    const { data } = await getEmployeeList({
-      ...toRaw(form),
-      page: currentPage.value,
-      size: currentSize.value,
-      kind: 101
-    });
+    // const { data } = await getEmployeeList({
+    //   ...toRaw(form),
+    //   page: currentPage.value,
+    //   size: currentSize.value,
+    //   kind: 101
+    // });
+    const data = {
+      list: [
+        {
+          id: 1,
+          username: "admin",
+          email: "admin@example.com",
+          role: "超级管理员"
+        },
+        {
+          id: 2,
+          username: "admin",
+          email: "admin@example.com",
+          role: "超级管理员"
+        },
+        {
+          id: 3,
+          username: "admin",
+          email: "admin@example.com",
+          role: "超级管理员"
+        },
+        {
+          id: 4,
+          username: "admin",
+          email: "admin@example.com",
+          role: "超级管理员"
+        }
+      ],
+      total: 4,
+      pageSize: 10,
+      currentPage: 1
+    };
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -103,7 +139,7 @@ export function useRole(treeRef: Ref) {
             id: data ? data?.id : ""
           }
         },
-        width: "25%",
+        width: "60%",
         draggable: true,
         fullscreen: deviceDetection(),
         fullscreenIcon: true,
