@@ -1,5 +1,5 @@
 import { transformI18n } from "@/plugins/i18n";
-import { addDialog } from "@/components/ReDialog";
+import { addDialog, closeDialog } from "@/components/ReDialog";
 import { deviceDetection } from "@pureadmin/utils";
 import { ref, h } from "vue";
 import AddAppointment from "./AddAppointment.vue";
@@ -35,23 +35,31 @@ export function useAddAppointment() {
   }
   function openDialogDetail(row?: any) {
     console.log("openDialogOne==>", row);
-    addDialog({
-      title: ``,
-      props: {
-        formInline: {}
-      },
-      width: "30%",
-      draggable: true,
-      fullscreen: deviceDetection(),
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      hideFooter: true,
-      contentRenderer: () =>
-        h(AppointmentDetail, { ref: AppointmentDetailRef, formInline: null })
-      // beforeSure: (done, { options }) => {
-      //   done(); // 关闭弹框
-      // }
-    });
+    reservationDetailApi({
+      id: row?.id
+    })
+      .then(({ data }: any) => {
+        console.log(data);
+        addDialog({
+          title: ``,
+          props: {
+            formInline: data
+          },
+          width: "30%",
+          draggable: true,
+          fullscreen: deviceDetection(),
+          fullscreenIcon: true,
+          closeOnClickModal: false,
+          hideFooter: true,
+          contentRenderer: () =>
+            h(AppointmentDetail, {
+              ref: AppointmentDetailRef,
+              formInline: data,
+              close: () => closeDialog(AppointmentDetailRef.value, 0, null)
+            })
+        });
+      })
+      .catch(err => {});
   }
   function openDialogProcessDetail(row?: any) {
     console.log("openDialogOne==>", row);

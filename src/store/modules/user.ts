@@ -10,11 +10,11 @@ import {
 import {
   type UserResult,
   type RefreshTokenResult,
-  getLogin,
   refreshTokenApi
 } from "@/api/user";
 import { useMultiTagsStoreHook } from "./multiTags";
 import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
+import { getLogin } from "@/api/apis";
 
 export const useUserStore = defineStore("pure-user", {
   state: (): userType => ({
@@ -66,6 +66,7 @@ export const useUserStore = defineStore("pure-user", {
     /** 登入 */
     async loginByUsername(data) {
       return new Promise<UserResult>((resolve, reject) => {
+        console.log("loginByUsername", data);
         getLogin(data)
           .then(data => {
             if (data) {

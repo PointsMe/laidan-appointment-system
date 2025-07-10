@@ -145,7 +145,7 @@ onMounted(() => {
                 class="bg-color-btn"
                 type="primary"
                 :icon="View"
-                @click="openDialogProcessForm(rowData)"
+                @click="openDialogDetail(rowData)"
                 >详情</el-button
               >
             </div>
