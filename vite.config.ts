@@ -26,7 +26,9 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       // 本地跨域代理 https://cn.vitejs.dev/config/server-options.html#server-proxy
       proxy: {
         "/api": {
-          target: "http://visualboss.frp.saonian.org/api",
+          // target: "http://192.168.1.134:18901/api",
+          // target: "http://visualboss.frp.saonian.org/api",
+          target: "http://192.168.1.187:13906/api",
           ws: false,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, "")

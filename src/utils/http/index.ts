@@ -23,7 +23,10 @@ const defaultConfig: AxiosRequestConfig = {
   headers: {
     Accept: "application/json, text/plain, */*",
     "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest"
+    "X-Requested-With": "XMLHttpRequest",
+    Authorization: "ENjhkNGU2NGMxMWRjNGI0N2JkNjY0ZDc0MTMwZDBlYTc=",
+    "X-Shop-Id": "801800800004159",
+    "X-Merchant-Id": "3018008000120"
   },
   // 数组格式参数序列化（https://github.com/axios/axios/issues/5142）
   paramsSerializer: {

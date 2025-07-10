@@ -6,6 +6,7 @@ import AddAppointment from "./AddAppointment.vue";
 import AppointmentDetail from "./AppointmentDetail.vue";
 import ProcessDetail from "./ProcessDetail.vue";
 import ProcessForm from "./ProcessForm.vue";
+import { reservationDetailApi } from "@/api/apis";
 
 export function useAddAppointment() {
   const AddAppointmentRef = ref();
@@ -71,20 +72,27 @@ export function useAddAppointment() {
   }
   function openDialogProcessForm(row?: any) {
     console.log("openDialogOne==>", row);
-    addDialog({
-      title: ``,
-      props: {
-        formInline: {}
-      },
-      width: "20%",
-      draggable: true,
-      fullscreen: deviceDetection(),
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      hideFooter: true,
-      contentRenderer: () =>
-        h(ProcessForm, { ref: ProcessFormRef, formInline: null })
-    });
+    reservationDetailApi({
+      id: row?.id
+    })
+      .then(res => {
+        console.log(res);
+        addDialog({
+          title: ``,
+          props: {
+            formInline: {}
+          },
+          width: "20%",
+          draggable: true,
+          fullscreen: deviceDetection(),
+          fullscreenIcon: true,
+          closeOnClickModal: false,
+          hideFooter: true,
+          contentRenderer: () =>
+            h(ProcessForm, { ref: ProcessFormRef, formInline: null })
+        });
+      })
+      .catch(err => {});
   }
   return {
     openDialog,
