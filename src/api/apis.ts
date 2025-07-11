@@ -11,6 +11,7 @@ type UserResult = {
     perms: Array<string>;
   };
 };
+/** 获取预约首页列表 */
 export const getReservationHomePageList = (data?: object) => {
   return http.request<ApiResponseData<any>>(
     "post",
@@ -20,6 +21,7 @@ export const getReservationHomePageList = (data?: object) => {
     }
   );
 };
+/** 获取预约详情 */
 export const reservationDetailApi = (data?: object) => {
   return http.request<ApiResponseData<any>>("post", "/reservation/detail", {
     data
@@ -87,4 +89,154 @@ export const getLogin = (data?: object) => {
   //     }
   //   });
   // });
+};
+/** 获取区域列表 */
+export const getTableZoneList = (data?: object) => {
+  return http.request<ApiResponseData<any>>("post", "/tableZone/list", {
+    data
+  });
+};
+/** 更新预约 */
+export const updateReservationApi = (data?: object) => {
+  return http.request<ApiResponseData<any>>("post", "/reservation/update", {
+    data
+  });
+};
+/** 修改预约状态 */
+export const updateReservationStateApi = (data?: object) => {
+  return http.request<ApiResponseData<any>>(
+    "post",
+    "/reservation/state/update",
+    {
+      data
+    }
+  );
+};
+/**
+ *
+ * @returns 获取预约时间
+ */
+export const getReservationTimeListApi = (data?: object) => {
+  return new Promise((resolve, reject) => {
+    resolve({
+      code: 20000,
+      msg: "OK",
+      data: [
+        {
+          tableZone: {
+            id: "232156419157925889",
+            name: "室外花园"
+          },
+          reservationZoneTimes: [
+            {
+              reservationTime: "10:00",
+              reservationed: false
+            },
+            {
+              reservationTime: "10:15",
+              reservationed: true
+            },
+            {
+              reservationTime: "10:30",
+              reservationed: true
+            },
+            {
+              reservationTime: "10:45",
+              reservationed: true
+            },
+            {
+              reservationTime: "11:00",
+              reservationed: true
+            },
+            {
+              reservationTime: "11:15",
+              reservationed: true
+            },
+            {
+              reservationTime: "11:30",
+              reservationed: true
+            },
+            {
+              reservationTime: "11:45",
+              reservationed: true
+            },
+            {
+              reservationTime: "12:00",
+              reservationed: true
+            },
+            {
+              reservationTime: "12:15",
+              reservationed: true
+            },
+            {
+              reservationTime: "12:30",
+              reservationed: true
+            }
+          ]
+        },
+        {
+          tableZone: {
+            id: "232156437411536897",
+            name: "室内天台"
+          },
+          reservationZoneTimes: [
+            {
+              reservationTime: "10:00",
+              reservationed: true
+            },
+            {
+              reservationTime: "10:15",
+              reservationed: true
+            },
+            {
+              reservationTime: "10:30",
+              reservationed: true
+            },
+            {
+              reservationTime: "10:45",
+              reservationed: true
+            },
+            {
+              reservationTime: "11:00",
+              reservationed: true
+            },
+            {
+              reservationTime: "11:15",
+              reservationed: true
+            },
+            {
+              reservationTime: "11:30",
+              reservationed: true
+            },
+            {
+              reservationTime: "11:45",
+              reservationed: true
+            },
+            {
+              reservationTime: "12:00",
+              reservationed: true
+            },
+            {
+              reservationTime: "12:15",
+              reservationed: true
+            },
+            {
+              reservationTime: "12:30",
+              reservationed: true
+            }
+          ]
+        }
+      ],
+      errors: []
+    });
+  });
+  // return http.request<ApiResponseData<any>>("post", "/reservation/time/list", {
+  //   data
+  // });
+};
+/** 创建预约 */
+export const createReservationApi = (data?: object) => {
+  return http.request<ApiResponseData<any>>("post", "/reservation/create", {
+    data
+  });
 };

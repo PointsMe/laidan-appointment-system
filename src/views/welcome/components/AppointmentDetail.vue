@@ -16,6 +16,7 @@ import Icon8 from "@/assets/images/icon-8.png";
 import Icon15 from "@/assets/images/icon-15.png";
 import Icon14 from "@/assets/images/icon-14.png";
 import Icon12 from "@/assets/images/icon-12.png";
+import { useAddAppointment } from "./hooks";
 defineOptions({
   name: "AppointmentDetail"
 });
@@ -24,6 +25,7 @@ const props = defineProps<{
 }>();
 const emit = defineEmits(["close"]);
 const rowData = ref(props.formInline);
+const { openDialogProcessDetail, openDialogProcessForm } = useAddAppointment();
 onMounted(() => {
   console.log("AppointmentDetail====onMounted", rowData.value);
   const iconList = [
@@ -71,6 +73,12 @@ onMounted(() => {
 const close = () => {
   emit("close");
 };
+const openDialogProcessFn = () => {
+  openDialogProcessDetail(rowData.value);
+};
+const openDialogProcessDetailForm = () => {
+  openDialogProcessForm(rowData.value);
+};
 </script>
 <template>
   <div class="appointment-detail">
@@ -95,7 +103,7 @@ const close = () => {
           <span>{{ rowData.tableNumbers?.join(",") }}</span>
         </div>
         <div class="flex flex-col justify-center bg-color-2 ml-10">
-          <el-button :icon="ArrowRightBold" />
+          <el-button :icon="ArrowRightBold" @click="openDialogProcessFn" />
         </div>
       </div>
     </div>
@@ -103,16 +111,16 @@ const close = () => {
       <div class="flex flex-col justify-start">
         <div class="flex items-center">
           <el-icon><Comment /></el-icon>
-          <span class="ml-2">{{ rowData.remark }}</span>
+          <span class="ml-2">{{ rowData.remark || "--" }}</span>
         </div>
         <div class="flex items-center ml-6 font-bold text-[#000]">
-          <span>香菜过敏</span>
+          <span>{{ rowData.allergen || "--" }}</span>
         </div>
       </div>
     </div>
     <div class="appointment-detail-bottom">
       <div class="flex flex-col bg-color-2">
-        <div class="text-2xl">{{ rowData.customer.name }}</div>
+        <div class="text-2xl">{{ rowData.username }}</div>
         <div class="flex items-center mt-2 mb-4">
           <el-icon><Iphone /></el-icon>
           <span>{{ rowData.mobile }}</span>
@@ -154,6 +162,7 @@ const close = () => {
         size="large"
         class="w-1/2 btn-color-1"
         :icon="Edit"
+        @click="openDialogProcessDetailForm"
         >编辑</el-button
       >
     </div>

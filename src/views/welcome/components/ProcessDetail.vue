@@ -6,38 +6,105 @@ import {
   ArrowRightBold,
   Edit
 } from "@element-plus/icons-vue";
+import { ref, onMounted } from "vue";
+import Icon1 from "@/assets/images/icon-1.png";
+import Icon2 from "@/assets/images/icon-2.png";
+import Icon3 from "@/assets/images/icon-3.png";
+import Icon4 from "@/assets/images/icon-4.png";
+import Icon8 from "@/assets/images/icon-8.png";
+import Icon15 from "@/assets/images/icon-15.png";
+import Icon14 from "@/assets/images/icon-14.png";
+import Icon12 from "@/assets/images/icon-12.png";
+import dayjs from "dayjs";
 defineOptions({
   name: "ProcessDetail"
 });
+const props = defineProps<{
+  formInline: any;
+}>();
+const emit = defineEmits(["close"]);
+const rowData = ref(props.formInline);
+onMounted(() => {
+  console.log("ProcessDetail====onMounted", rowData.value);
+  const iconList = [
+    {
+      state: 101,
+      icon: Icon1
+    },
+    {
+      state: 102,
+      icon: Icon2
+    },
+    {
+      state: 103,
+      icon: Icon3
+    },
+    {
+      state: 104,
+      icon: Icon4
+    },
+    {
+      state: 105,
+      icon: Icon8
+    },
+    {
+      state: 106,
+      icon: Icon15
+    },
+    {
+      state: 107,
+      icon: Icon14
+    },
+    {
+      state: 108,
+      icon: Icon12
+    }
+  ];
+  rowData.value = {
+    ...props.formInline,
+    icon: iconList.find(iv => iv.state === props.formInline.state)?.icon,
+    weekday: dayjs(props.formInline.startedAt).format("dddd"),
+    date: dayjs(props.formInline.startedAt).format("YYYY-MM-DD"),
+    time: dayjs(props.formInline.startedAt).format("hh:mm:ss")
+  };
+});
+const close = () => {
+  emit("close");
+};
 </script>
 <template>
   <div class="process-detail">
     <div class="appointment-detail-header flex items-center justify-between">
       <div class="flex ml-4 items-center">
-        <img src="@/assets/images/icon-1.png" alt="" class="w-15 h-15" />
+        <img :src="rowData.icon" alt="" class="w-15 h-15" />
         <div class="flex flex-col ml-4">
-          <span>周五 11/12/2024</span>
-          <span>晚餐 19:30 - 22:00</span>
+          <span>{{ rowData.weekday }} {{ rowData.date }}</span>
+          <span>{{ rowData.time }}</span>
         </div>
       </div>
       <div class="flex ml-4 gap-4">
         <div class="flex flex-col items-end justify-center bg-color-1">
           <span>人数</span>
-          <span>10</span>
+          <span>{{ rowData.dinerCount }}</span>
         </div>
         <div class="flex flex-col items-end justify-center bg-color-grey-1">
-          <span>室内</span>
-          <span>20</span>
+          <span>{{ rowData.tableZone.name }}</span>
+          <span>{{ rowData.tableNumbers?.join(",") }}</span>
         </div>
-        <div class="flex flex-col items-end justify-center bg-color-2 ml-10">
+        <!-- <div class="flex flex-col items-end justify-center bg-color-2 ml-10">
           <el-button :icon="ArrowRightBold" />
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="appointment-detail-top ml-4 mt-4 mb-6">
-      <div class="flex items-center">
-        <el-icon><Comment /></el-icon>
-        <span>需要一个安静的角落座位，需要一个安静的角落座位。</span>
+      <div class="flex flex-col justify-start">
+        <div class="flex items-center">
+          <el-icon><Comment /></el-icon>
+          <span class="ml-2">{{ rowData.remark || "--" }}</span>
+        </div>
+        <div class="flex items-center ml-6 font-bold text-[#000]">
+          <span>{{ rowData.allergen || "--" }}</span>
+        </div>
       </div>
     </div>
     <div class="process-detail-bottom flex flex-col">
@@ -75,7 +142,7 @@ defineOptions({
       </div>
     </div>
     <div class="flex justify-between mt-20 gap-4 w-5/10 mx-auto">
-      <el-button size="large" class="w-full">关闭</el-button>
+      <el-button size="large" class="w-full" @click="close">关闭</el-button>
     </div>
   </div>
 </template>

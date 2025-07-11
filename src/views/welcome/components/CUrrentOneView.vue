@@ -9,14 +9,10 @@ import {
 import dayjs from "dayjs";
 import { useAddAppointment } from "./hooks";
 import { onMounted, ref } from "vue";
-import { ReservationStatus } from "@/config/enum";
 import Icon1 from "@/assets/images/icon-1.png";
 import Icon2 from "@/assets/images/icon-2.png";
 import Icon3 from "@/assets/images/icon-3.png";
 import Icon4 from "@/assets/images/icon-4.png";
-import Icon5 from "@/assets/images/icon-5.png";
-import Icon6 from "@/assets/images/icon-6.png";
-import Icon7 from "@/assets/images/icon-7.png";
 import Icon8 from "@/assets/images/icon-8.png";
 import Icon12 from "@/assets/images/icon-12.png";
 import Icon14 from "@/assets/images/icon-14.png";
@@ -24,12 +20,13 @@ import Icon15 from "@/assets/images/icon-15.png";
 defineOptions({
   name: "CurrentOneView"
 });
-const { openDialogDetail, openDialogProcessDetail, openDialogProcessForm } =
+const { openDialogDetail, updateReservationStateFn, showMobileFn } =
   useAddAppointment();
 const row = defineProps<{
   data: any;
 }>();
 const rowData = ref({});
+
 onMounted(() => {
   console.log("onMounted==>", row.data);
   const iconList = [
@@ -122,12 +119,16 @@ onMounted(() => {
             </div>
           </template>
           <div class="flex items-center justify-between bg-color">
-            <div class="flex-1">
-              <el-button class="bg-color-btn" type="primary" :icon="Select"
-                >确认
-              </el-button>
+            <div v-if="rowData.state === 101" class="flex-1">
+              <el-button
+                class="bg-color-btn"
+                type="primary"
+                :icon="Select"
+                @click="updateReservationStateFn(rowData)"
+                >确认</el-button
+              >
             </div>
-            <el-divider direction="vertical" />
+            <el-divider v-if="rowData.state === 101" direction="vertical" />
             <div class="flex-1">
               <el-button class="bg-color-btn" type="primary" :icon="KnifeFork"
                 >选座</el-button
@@ -135,7 +136,11 @@ onMounted(() => {
             </div>
             <el-divider direction="vertical" />
             <div class="flex-1">
-              <el-button class="bg-color-btn" type="primary" :icon="PhoneFilled"
+              <el-button
+                class="bg-color-btn"
+                type="primary"
+                :icon="PhoneFilled"
+                @click="showMobileFn(rowData.mobile)"
                 >电话</el-button
               >
             </div>

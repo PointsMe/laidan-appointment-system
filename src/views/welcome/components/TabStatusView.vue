@@ -29,330 +29,330 @@ const handleChangeTime = (val: CollapseModelValue) => {
   console.log(val);
 };
 const getTableData = async () => {
-  // const res = await getReservationHomePageList({
-  //   diningPeriod: 101
-  // });
-  const res = await Promise.resolve({
-    code: 20000,
-    msg: "OK",
-    data: {
-      "101": {
-        "00:01": [
-          {
-            id: "232275129905815554",
-            createdAt: "2025-07-09T09:44:32+0000",
-            customerId: "232129540175360002",
-            source: null,
-            state: 101,
-            dinerCount: 2,
-            adultCount: 1,
-            childCount: 1,
-            username: "juuu",
-            mobile: "4fmA)QQlrs",
-            remark: null,
-            startedAt: "2025-07-09T16:01:54+0000",
-            endedAt: "2025-07-09T17:31:54+0000",
-            tableIds: null,
-            tableNumbers: null,
-            diningPeriod: 101,
-            customer: { id: "232129540175360002", name: "表海燕" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          },
-          {
-            id: "232269986682478594",
-            createdAt: "2025-07-09T08:24:43+0000",
-            customerId: "232129540175360002",
-            source: null,
-            state: 101,
-            dinerCount: 2,
-            adultCount: 1,
-            childCount: 1,
-            username: "juuu",
-            mobile: "4fmA)QQlrs",
-            remark: null,
-            startedAt: "2025-07-09T16:01:54+0000",
-            endedAt: "2025-07-09T17:31:54+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232129540175360002", name: "表海燕" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          },
-          {
-            id: "232269149161152513",
-            createdAt: "2025-07-09T08:11:42+0000",
-            customerId: "232129540175360002",
-            source: null,
-            state: 101,
-            dinerCount: 2,
-            adultCount: 1,
-            childCount: 1,
-            username: "juuu",
-            mobile: "4fmA)QQlrs",
-            remark: null,
-            startedAt: "2025-07-09T16:01:54+0000",
-            endedAt: "2025-07-09T17:31:54+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232129540175360002", name: "表海燕" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          },
-          {
-            id: "232256127896924162",
-            createdAt: "2025-07-09T04:49:36+0000",
-            customerId: "232129540175360002",
-            source: null,
-            state: 101,
-            dinerCount: 2,
-            adultCount: 1,
-            childCount: 1,
-            username: "juuu",
-            mobile: "4fmA)QQlrs",
-            remark: null,
-            startedAt: "2025-07-09T16:01:54+0000",
-            endedAt: "2025-07-09T17:31:54+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232129540175360002", name: "表海燕" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ]
-      },
-      "102": {
-        "10:00": [
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 102,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ]
-      },
-      "103": {
-        "10:00": [
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 103,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ]
-      },
-      "104": {
-        "10:00": [
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 104,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ]
-      },
-      "105": {
-        "10:00": [
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 105,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ]
-      },
-      "106": {
-        "10:00": [
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 106,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ]
-      },
-      "107": {
-        "10:00": [
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 107,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          },
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 107,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ]
-      },
-      "108": {
-        "10:00": [
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 108,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ],
-        "18:00": [
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 108,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          },
-          {
-            id: "232281003271602178",
-            createdAt: "2025-07-09T11:15:43+0000",
-            customerId: "232248240186519554",
-            source: null,
-            state: 108,
-            dinerCount: 3,
-            adultCount: 2,
-            childCount: 1,
-            username: "何总22",
-            mobile: "86-18376612587",
-            remark: null,
-            startedAt: "2025-07-10T02:00:00+0000",
-            endedAt: "2025-07-10T03:30:00+0000",
-            tableIds: ["232173029940531202"],
-            tableNumbers: ["0002"],
-            diningPeriod: 101,
-            customer: { id: "232248240186519554", name: "86-18376612587" },
-            tableZone: { id: "232156419157925889", name: "室外花园" }
-          }
-        ]
-      }
-    },
-    errors: []
+  const res = await getReservationHomePageList({
+    diningPeriod: 101
   });
+  // const res = await Promise.resolve({
+  //   code: 20000,
+  //   msg: "OK",
+  //   data: {
+  //     "101": {
+  //       "00:01": [
+  //         {
+  //           id: "232275129905815554",
+  //           createdAt: "2025-07-09T09:44:32+0000",
+  //           customerId: "232129540175360002",
+  //           source: null,
+  //           state: 101,
+  //           dinerCount: 2,
+  //           adultCount: 1,
+  //           childCount: 1,
+  //           username: "juuu",
+  //           mobile: "4fmA)QQlrs",
+  //           remark: null,
+  //           startedAt: "2025-07-09T16:01:54+0000",
+  //           endedAt: "2025-07-09T17:31:54+0000",
+  //           tableIds: null,
+  //           tableNumbers: null,
+  //           diningPeriod: 101,
+  //           customer: { id: "232129540175360002", name: "表海燕" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         },
+  //         {
+  //           id: "232269986682478594",
+  //           createdAt: "2025-07-09T08:24:43+0000",
+  //           customerId: "232129540175360002",
+  //           source: null,
+  //           state: 101,
+  //           dinerCount: 2,
+  //           adultCount: 1,
+  //           childCount: 1,
+  //           username: "juuu",
+  //           mobile: "4fmA)QQlrs",
+  //           remark: null,
+  //           startedAt: "2025-07-09T16:01:54+0000",
+  //           endedAt: "2025-07-09T17:31:54+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232129540175360002", name: "表海燕" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         },
+  //         {
+  //           id: "232269149161152513",
+  //           createdAt: "2025-07-09T08:11:42+0000",
+  //           customerId: "232129540175360002",
+  //           source: null,
+  //           state: 101,
+  //           dinerCount: 2,
+  //           adultCount: 1,
+  //           childCount: 1,
+  //           username: "juuu",
+  //           mobile: "4fmA)QQlrs",
+  //           remark: null,
+  //           startedAt: "2025-07-09T16:01:54+0000",
+  //           endedAt: "2025-07-09T17:31:54+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232129540175360002", name: "表海燕" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         },
+  //         {
+  //           id: "232256127896924162",
+  //           createdAt: "2025-07-09T04:49:36+0000",
+  //           customerId: "232129540175360002",
+  //           source: null,
+  //           state: 101,
+  //           dinerCount: 2,
+  //           adultCount: 1,
+  //           childCount: 1,
+  //           username: "juuu",
+  //           mobile: "4fmA)QQlrs",
+  //           remark: null,
+  //           startedAt: "2025-07-09T16:01:54+0000",
+  //           endedAt: "2025-07-09T17:31:54+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232129540175360002", name: "表海燕" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ]
+  //     },
+  //     "102": {
+  //       "10:00": [
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 102,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ]
+  //     },
+  //     "103": {
+  //       "10:00": [
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 103,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ]
+  //     },
+  //     "104": {
+  //       "10:00": [
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 104,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ]
+  //     },
+  //     "105": {
+  //       "10:00": [
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 105,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ]
+  //     },
+  //     "106": {
+  //       "10:00": [
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 106,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ]
+  //     },
+  //     "107": {
+  //       "10:00": [
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 107,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         },
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 107,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ]
+  //     },
+  //     "108": {
+  //       "10:00": [
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 108,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ],
+  //       "18:00": [
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 108,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         },
+  //         {
+  //           id: "232281003271602178",
+  //           createdAt: "2025-07-09T11:15:43+0000",
+  //           customerId: "232248240186519554",
+  //           source: null,
+  //           state: 108,
+  //           dinerCount: 3,
+  //           adultCount: 2,
+  //           childCount: 1,
+  //           username: "何总22",
+  //           mobile: "86-18376612587",
+  //           remark: null,
+  //           startedAt: "2025-07-10T02:00:00+0000",
+  //           endedAt: "2025-07-10T03:30:00+0000",
+  //           tableIds: ["232173029940531202"],
+  //           tableNumbers: ["0002"],
+  //           diningPeriod: 101,
+  //           customer: { id: "232248240186519554", name: "86-18376612587" },
+  //           tableZone: { id: "232156419157925889", name: "室外花园" }
+  //         }
+  //       ]
+  //     }
+  //   },
+  //   errors: []
+  // });
   console.log(res);
   const arr = [];
   for (const key in res.data) {

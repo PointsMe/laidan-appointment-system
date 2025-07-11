@@ -72,8 +72,8 @@ export const useUserStore = defineStore("pure-user", {
             if (data) {
               console.log("loginByUsername", data);
               const params: any = {
-                accessToken: data.data.token,
-                refreshToken: data.data.token,
+                accessToken: "ENjhkNGU2NGMxMWRjNGI0N2JkNjY0ZDc0MTMwZDBlYTc=",
+                refreshToken: "ENjhkNGU2NGMxMWRjNGI0N2JkNjY0ZDc0MTMwZDBlYTc=",
                 expires: new Date().getTime() + 1000 * 60 * 60 * 27 * 7,
                 avatar: data.data.account.avatar,
                 username: data.data.account.username,
@@ -107,8 +107,8 @@ export const useUserStore = defineStore("pure-user", {
           .then(data => {
             if (data) {
               const params: any = {
-                accessToken: data.data.accessToken,
-                refreshToken: data.data.refreshToken,
+                accessToken: "ENjhkNGU2NGMxMWRjNGI0N2JkNjY0ZDc0MTMwZDBlYTc=",
+                refreshToken: "ENjhkNGU2NGMxMWRjNGI0N2JkNjY0ZDc0MTMwZDBlYTc=",
                 expires: 1000 * 60 * 60 * 27 * 7
               };
               setToken(params);
